@@ -33,7 +33,7 @@ const Headers = () => {
          
     {/* SignIn   */}
          <Link to="/sign-in">
-             <Button gradientDuoTone='purpleToBlue' pill>
+             <Button gradientDuoTone='purpleToBlue' pill outline>
                  Sign-in
              </Button>
          </Link>
@@ -42,17 +42,17 @@ const Headers = () => {
          </div>
        {/* menu with responsive for all device */}
          <Navbar.Collapse>
-             <Navbar.Link active={path === '/'} as={'div'}>
+             <Navbar.Link active={path === '/'} as={'div'} className={path === '/' ? 'text-blue-500' : ''}>
                 <Link to='/home'>
                     Home 
                 </Link>
              </Navbar.Link>
-             <Navbar.Link active={path === '/about'} as={'div'}>
+             <Navbar.Link active={path === '/about'} as={'div'} className={path === '/about'? 'text-blue-500' : ''}>
                 <Link to='/about'>
                     About 
                 </Link>
              </Navbar.Link>
-             <Navbar.Link active={path === '/project'} as={'div'}>
+             <Navbar.Link active={path === '/project'} as={'div'} className={path === '/project' ? 'text-blue-500' : ''}>
                 <Link to='/project'>
                     Projects 
                 </Link>
