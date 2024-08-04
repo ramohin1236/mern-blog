@@ -86,7 +86,7 @@ const SignUp = () => {
              <div className='mt-2'>
                 <span>Have an account? 
 
-                    <Link to='sign-in' className='text-blue-500 font-semibold ml-3'>Sign in</Link>
+                    <Link to='/sign-in' className='text-blue-500 font-semibold ml-3'>Sign in</Link>
                 </span>
              </div>
             {
