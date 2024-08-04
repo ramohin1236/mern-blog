@@ -6,12 +6,15 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import {useDispatch,useSelector} from 'react-redux';
+import { signInStart,signInFailure,signInSuccess} from '../redux/user/userSlice';
+
 const SignIn = () => {
 
     const [formData, setFormData]=useState({});
-    const [errorMessage,setErrorMessage]=useState(null);
-    const [loading,setLoading]=useState(false);
-    const navigate =useNavigate()
+  const {loading, error:errorMessage} =useSelector(state=>state.user)
+    const dispatch = useDispatch();
+    const navigate =useNavigate();
  //   onchange function------------ 
  // trim is remove space in input
      const handleChange =(e)=>{
@@ -22,22 +25,24 @@ const SignIn = () => {
      const handleSubmit =async(e)=>{
          e.preventDefault()
          if(!formData.email || !formData.password){
-             return setErrorMessage('Please fill out all fields.')
+             return dispatch(signInFailure('Please fill out all fields.'));
          }
          try {
-             setLoading(true)
-             setErrorMessage(null)
+            //  setLoading(true)
+            //  setErrorMessage(null)
+            dispatch(signInStart());
              const res = await axios.post('/api/auth/signin', formData);
              if(res.status ===200 || res.ok){
+                dispatch(signInSuccess(res.data))
                  toast.success("Sign-in successfully!")
                  navigate('/')
              }
              console.log("resss",res);
-             setLoading(false)
+       
            }
            
            catch (error) {
-             setErrorMessage("Duplicate name or email field!");
+            dispatch(signInFailure(error.message))
            }
      }
   return (
