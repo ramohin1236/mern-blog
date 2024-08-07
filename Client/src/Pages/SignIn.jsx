@@ -8,6 +8,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import {useDispatch,useSelector} from 'react-redux';
 import { signInStart,signInFailure,signInSuccess} from '../redux/user/userSlice';
+import OAuth from '../Components/OAuth';
 
 const SignIn = () => {
 
@@ -45,6 +46,7 @@ const SignIn = () => {
             dispatch(signInFailure(error.message))
            }
      }
+     
   return (
     <div className="min-h-screen mt-8">
            
@@ -81,6 +83,8 @@ const SignIn = () => {
                         </>):"Sign in"
                       } 
                    </Button>
+                   {/* google sign in button */}
+                   <OAuth/>
              </form>
              <div className='mt-2'>
                 <span>Haven't any account? 
