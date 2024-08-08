@@ -21,7 +21,7 @@ import { HiOutlineExclamationCircle } from 'react-icons/hi';
 
 
 const DashProfile = () => {
-    const {currentUser}= useSelector(state=>state.user)
+    const {currentUser,error}= useSelector(state=>state.user)
   
     const [imagefile, setImageFile]=useState(null)
     const [imageFileUrl, setImageFileUrl]=useState(null)
@@ -74,7 +74,7 @@ const DashProfile = () => {
             setUpdateUserError(toast.error(data.message));
           } else {
             dispatch(updateSuccess(data));
-            setUpdateUserSuccess(toast.success("User's profile updated successfully"));
+            setUpdateUserSuccess(toast.success(`${currentUser.username} profile updated successfully`));
           }
         } catch (error) {
           dispatch(updateFailure(error.message));
@@ -139,7 +139,7 @@ const DashProfile = () => {
         setFormData({ ...formData, [e.target.id]: e.target.value });
       };
 
-
+// delete user
       const handleDeleteUser =async()=>{
     
           setShowModal(false);
@@ -153,7 +153,7 @@ const DashProfile = () => {
               dispatch(deleteUserFailure(data.message));
             } else {
               dispatch(deleteUserSuccess(data));
-              toast.success('Userid Deleted Successfully!')
+              toast.success('User Deleted Successfully!')
             }
           } catch (error) {
             dispatch(deleteUserFailure(error.message));
@@ -257,6 +257,13 @@ const DashProfile = () => {
             </Alert>
         )
        }
+       {
+        error && (
+            <Alert className='mt-5' color='failure'>
+                {error}
+            </Alert>
+        )
+       }
        <Modal show={showModal} onClose={()=>setShowModal(false)} popup size='md'>
        <Modal.Body>
           <div className='text-center'>
@@ -264,7 +271,7 @@ const DashProfile = () => {
             <h3 className='mb-5 text-lg text-gray-500 dark:text-gray-400'>
               Are you sure you want to delete your account?
             </h3>
-            <div className='flex justify-center gap-4'>
+            <div className='flex justify-center gap-6'>
               <Button color='failure' onClick={handleDeleteUser}>
                 Yes, I'm sure
               </Button>
