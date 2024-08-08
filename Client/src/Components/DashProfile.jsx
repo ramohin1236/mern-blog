@@ -1,10 +1,14 @@
+/* eslint-disable react/no-unescaped-entities */
 /* eslint-disable no-unused-vars */
 import { 
     updateStart,
     updateFailure,
-    updateSuccess
+    updateSuccess,
+    deleteUserStart,
+    deleteUserFailure,
+    deleteUserSuccess
  } from '../redux/user/userSlice';
-import { Alert, Button, TextInput } from 'flowbite-react';
+import { Alert, Button, Modal, TextInput } from 'flowbite-react';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {getDownloadURL, getStorage, ref, uploadBytesResumable} from 'firebase/storage'; 
@@ -12,7 +16,7 @@ import { app } from './../firebase';
 import { toast } from 'react-toastify';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
-
+import { HiOutlineExclamationCircle } from 'react-icons/hi';
 
 
 
@@ -28,6 +32,7 @@ const DashProfile = () => {
     const [updateUserSuccess, setUpdateUserSuccess] = useState(null);
     const [updateUserError, setUpdateUserError] = useState(null);
     const [formData, setFormData] = useState({});
+    const [showModal, setShowModal]= useState(false)
     const dispatch = useDispatch();
     // image change 
     const handleImageChange =(e)=>{
@@ -81,7 +86,7 @@ const DashProfile = () => {
             uploadImage()
         }
     },[imagefile])
-
+// image upload
     const uploadImage = async()=>{
         // service firebase.storage {
         //     match /b/{bucket}/o {
@@ -133,6 +138,27 @@ const DashProfile = () => {
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.id]: e.target.value });
       };
+
+
+      const handleDeleteUser =async()=>{
+    
+          setShowModal(false);
+          try {
+            dispatch(deleteUserStart());
+            const res = await fetch(`/api/user/delete/${currentUser._id}`, {
+              method: 'DELETE',
+            });
+            const data = await res.json();
+            if (!res.ok) {
+              dispatch(deleteUserFailure(data.message));
+            } else {
+              dispatch(deleteUserSuccess(data));
+              toast.success('Userid Deleted Successfully!')
+            }
+          } catch (error) {
+            dispatch(deleteUserFailure(error.message));
+          }
+      }
   return (
     <div className='max-w-lg mx-auto p-3 w-full'>
         <h1 className='my-7 text-center font-bold text-3xl'>{currentUser.username}</h1>
@@ -217,11 +243,13 @@ const DashProfile = () => {
           submit
         </Button>
        </form>
-       <div>
-       <h3 className='mb-5 text-lg text-gray-500 dark:text-gray-400'>
-              Are you sure you want to delete your account?
-            </h3>
+       <div className='text-red-500 flex justify-between mt-5'>
+          <span 
+          onClick={()=>setShowModal(true)}
+         className='cursor-pointer'>Delete Account</span>
+          <span className='cursor-pointer'>Sign Out</span>
        </div>
+       {/* if any error then show it */}
        {
         updateUserError && (
             <Alert className='mt-5' color='failure'>
@@ -229,6 +257,24 @@ const DashProfile = () => {
             </Alert>
         )
        }
+       <Modal show={showModal} onClose={()=>setShowModal(false)} popup size='md'>
+       <Modal.Body>
+          <div className='text-center'>
+            <HiOutlineExclamationCircle className='h-14 w-14 text-gray-400 dark:text-gray-200 mb-4 mx-auto' />
+            <h3 className='mb-5 text-lg text-gray-500 dark:text-gray-400'>
+              Are you sure you want to delete your account?
+            </h3>
+            <div className='flex justify-center gap-4'>
+              <Button color='failure' onClick={handleDeleteUser}>
+                Yes, I'm sure
+              </Button>
+              <Button color='gray' onClick={() => setShowModal(false)}>
+                No, cancel
+              </Button>
+            </div>
+          </div>
+        </Modal.Body>
+       </Modal>
     </div>
   )
 }
