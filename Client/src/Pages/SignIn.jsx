@@ -38,7 +38,7 @@ const SignIn = () => {
                  toast.success("Sign-in successfully!")
                  navigate('/')
              }
-             console.log("resss",res);
+            
        
            }
            

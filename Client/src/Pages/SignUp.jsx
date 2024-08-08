@@ -32,7 +32,6 @@ const SignUp = () => {
                 toast.success("Sign-up successfully!")
                 navigate('/sign-in')
             }
-            console.log("resss",res);
             setLoading(false)
           }
           
