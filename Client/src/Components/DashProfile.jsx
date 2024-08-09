@@ -261,7 +261,7 @@ const DashProfile = () => {
         //   disabled={loading || imageFileUploading}
         >
           {/* {loading ? 'Loading...' : 'Update'} */}
-          submit
+          Update
         </Button>
        </form>
        <div className='text-red-500 flex justify-between mt-5'>
