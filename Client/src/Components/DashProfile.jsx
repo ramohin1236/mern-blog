@@ -18,11 +18,12 @@ import { toast } from 'react-toastify';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
+import { Link } from 'react-router-dom';
 
 
 
 const DashProfile = () => {
-    const {currentUser,error}= useSelector(state=>state.user)
+    const {currentUser,error,loading}= useSelector(state=>state.user)
   
     const [imagefile, setImageFile]=useState(null)
     const [imageFileUrl, setImageFileUrl]=useState(null)
@@ -258,11 +259,12 @@ const DashProfile = () => {
           type='submit'
           gradientDuoTone='purpleToBlue'
           outline
-        //   disabled={loading || imageFileUploading}
+          disabled={loading || imageFileUploading}
         >
-          {/* {loading ? 'Loading...' : 'Update'} */}
-          Update
+          {loading ? 'Loading...' : 'Update'}
+    
         </Button>
+      
        </form>
        <div className='text-red-500 flex justify-between mt-5'>
           <span 

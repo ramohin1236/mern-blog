@@ -1,65 +1,96 @@
-import {Sidebar} from 'flowbite-react'
-import { useEffect, useState } from 'react';
-import {HiArrowRight, HiUser} from 'react-icons/hi'
-import { useDispatch } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
-import { signoutSuccess } from '../redux/user/userSlice.js';
-
+import { Sidebar } from "flowbite-react";
+import { useEffect, useState } from "react";
+import { HiArrowRight, HiUser } from "react-icons/hi";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useLocation } from "react-router-dom";
+import { signoutSuccess } from "../redux/user/userSlice.js";
+import { IoIosCreate } from "react-icons/io";
 
 const DashSidebar = () => {
+  const location = useLocation();
+  const [tab, setTab] = useState("");
+  const { currentUser } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
+    const tabFromUrl = urlParams.get("tab");
+    if (tabFromUrl) {
+      setTab(tabFromUrl);
+    }
+  }, [location.search]);
 
-    const location = useLocation();
-    const [tab, setTab]= useState('')
-    
-    const dispatch =useDispatch()
-    
-    useEffect(()=>{
-        const urlParams = new URLSearchParams(location.search);
-        const tabFromUrl = urlParams.get('tab')
-        if(tabFromUrl){
-            setTab(tabFromUrl)
-        }
-    },[location.search])
-
-    // signout 
-    const handleSignout = async () => {
-        try {
-          const res = await fetch('/api/user/signout', {
-            method: 'POST',
-          });
-          const data = await res.json();
-          if (!res.ok) {
-            console.log(data.message);
-          } else {
-            dispatch(signoutSuccess());
-          }
-        } catch (error) {
-          console.log(error.message);
-        }
-      };
+  // signout
+  const handleSignout = async () => {
+    try {
+      const res = await fetch("/api/user/signout", {
+        method: "POST",
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        console.log(data.message);
+      } else {
+        dispatch(signoutSuccess());
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
   return (
-    <Sidebar className='w-full md:w-56'>
-        <Sidebar.Items>
-            <Sidebar.ItemGroup>
-                <Link to='/dashboard?tab=profile'>
-                <Sidebar.Item active={tab === 'profile'} icon={HiUser}  label={'User'} labelColor='dark'
-                as='div'
-                >
-                    Profile
-                </Sidebar.Item>
-                </Link>
-              
-                <Sidebar.Item  icon={HiArrowRight}  
-                className="cursor-pointer"
-                onClick={handleSignout}
-                >
-                   Sign out
-                </Sidebar.Item>
-            </Sidebar.ItemGroup>
-        </Sidebar.Items>
-    </Sidebar>
-  )
-}
+    <Sidebar className="w-full md:w-56">
+      <Sidebar.Items>
+        <Sidebar.ItemGroup className="flex flex-col gap-4 md:gap-96">
+        
+        <div>
+        <Link to="/dashboard?tab=profile">
+            <Sidebar.Item
+              active={tab === "profile"}
+              icon={HiUser}
+              label={`${currentUser.isAdmin ? "admin":"user"}`}
+              labelColor="dark"
+              as="div"
+            >
+              Settings
+            </Sidebar.Item>
+          </Link>
 
-export default DashSidebar
+         
+     {/* ---------------------- for admin ---------------------------------- */}
+                                {/* create a post */}
+          {currentUser.isAdmin && (
+            <>
+            <Link to={"/dashboard/create-post"}>
+              <Sidebar.Item
+                icon={IoIosCreate}
+                className="cursor-pointer"
+              >
+                Create a post
+              </Sidebar.Item>
+            </Link>
+           
+            </>
+          )}
+        </div>
+
+
+
+
+          {/* sign out for all */}
+          <div>
+          <Sidebar.Item
+            icon={HiArrowRight}
+            className="cursor-pointer"
+            onClick={handleSignout}
+          >
+            Sign out
+          </Sidebar.Item>
+          </div>
+        </Sidebar.ItemGroup>
+      </Sidebar.Items>
+
+      
+    </Sidebar>
+  );
+};
+
+export default DashSidebar;

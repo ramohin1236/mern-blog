@@ -8,6 +8,10 @@ import Projects from "./Pages/Projects";
 import Headers from "./Components/Headers";
 import FooterComponent from "./Components/FooterComponent";
 import PrivateRoute from "./Components/PrivateRoute";
+import CreatePost from "./Pages/CreatePost";
+import AdminPrivateRoute from "./Components/AdminPrivateRoute";
+import DashboardLayout from "./Components/DashboardLayout";
+
 
 function App() {
   return (
@@ -18,10 +22,22 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/sign-up" element={<SignUp />} />
+        <Route path="/project" element={<Projects />} />
+
+        {/* private route */}
         <Route element={<PrivateRoute />}>
           <Route path="/dashboard" element={<Dashboard />} />
         </Route>
-        <Route path="/project" element={<Projects />} />
+
+        {/* admin private route */}
+        <Route element={<AdminPrivateRoute />}>
+          <Route path="/dashboard" element={<DashboardLayout />}>
+        
+            <Route path="/dashboard/create-post" element={<CreatePost />} />
+           
+       
+          </Route>
+        </Route>
       </Routes>
       <FooterComponent />
     </BrowserRouter>
