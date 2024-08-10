@@ -1,6 +1,6 @@
 import { Sidebar } from "flowbite-react";
 import { useEffect, useState } from "react";
-import { HiArrowRight, HiUser } from "react-icons/hi";
+import { HiArrowRight, HiDocumentText, HiUser } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { signoutSuccess } from "../redux/user/userSlice.js";
@@ -63,8 +63,19 @@ const DashSidebar = () => {
               <Sidebar.Item
                 icon={IoIosCreate}
                 className="cursor-pointer"
+                 as="div"
               >
                 Create a post
+              </Sidebar.Item>
+            </Link>
+
+            <Link to={"/dashboard?tab=posts"}>
+              <Sidebar.Item
+                icon={HiDocumentText}
+                className="cursor-pointer"
+                 as="div"
+              >
+                 Posts
               </Sidebar.Item>
             </Link>
            
