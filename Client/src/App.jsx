@@ -12,6 +12,7 @@ import CreatePost from "./Pages/CreatePost";
 import AdminPrivateRoute from "./Components/AdminPrivateRoute";
 import DashboardLayout from "./Components/DashboardLayout";
 import UpdatePost from "./Pages/UpdatePost";
+import PostDetailsPage from "./Pages/PostDetailsPage";
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/project" element={<Projects />} />
+        <Route path="/post/:postSlug" element={<PostDetailsPage />} />
 
         {/* private route */}
         <Route element={<PrivateRoute />}>
