@@ -13,11 +13,13 @@ import AdminPrivateRoute from "./Components/AdminPrivateRoute";
 import DashboardLayout from "./Components/DashboardLayout";
 import UpdatePost from "./Pages/UpdatePost";
 import PostDetailsPage from "./Pages/PostDetailsPage";
+import TopOfPage from "./Components/TopOfPage";
 
 
 function App() {
   return (
     <BrowserRouter>
+    <TopOfPage/>
       <Headers />
       <Routes>
         <Route path="/" element={<Home />} />
