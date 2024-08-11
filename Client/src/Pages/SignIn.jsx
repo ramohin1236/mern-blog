@@ -35,7 +35,8 @@ const SignIn = () => {
              const res = await axios.post('/api/auth/signin', formData);
              if(res.status ===200 || res.ok){
                 dispatch(signInSuccess(res.data))
-                 toast.success("Sign-in successfully!")
+                 toast.success("Sign-in successfully!", {
+                    autoClose: 2000})
                  navigate('/')
              }
             

@@ -11,6 +11,7 @@ import PrivateRoute from "./Components/PrivateRoute";
 import CreatePost from "./Pages/CreatePost";
 import AdminPrivateRoute from "./Components/AdminPrivateRoute";
 import DashboardLayout from "./Components/DashboardLayout";
+import UpdatePost from "./Pages/UpdatePost";
 
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
           <Route path="/dashboard" element={<DashboardLayout />}>
         
             <Route path="/dashboard/create-post" element={<CreatePost />} />
+            <Route path="/dashboard/update-post/:postId" element={<UpdatePost />} />
            
        
           </Route>

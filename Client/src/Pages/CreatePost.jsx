@@ -81,7 +81,8 @@ const CreatePost = () => {
         if (res.ok) {
           setPublishError(null);
           navigate(`/post/${data.slug}`);
-          toast.success(`${data.slug} "uploaded successfully!"`)
+          toast.success(`${data.slug} "uploaded successfully!"`, {
+            autoClose: 2000})
         }
       } catch (error) {
         setPublishError('Something went wrong');

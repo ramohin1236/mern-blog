@@ -28,7 +28,8 @@ const OAuth = () => {
         const data = await res.json()
         if (res.ok){
             dispatch(signInSuccess(data))
-            toast.success("signin successfully!")
+            toast.success("Signin successfully!", {
+                autoClose: 2000})
             navigate('/')
         }
     } catch (error) {

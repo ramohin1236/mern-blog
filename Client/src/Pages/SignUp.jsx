@@ -29,7 +29,8 @@ const SignUp = () => {
             setErrorMessage(null)
             const res = await axios.post('/api/auth/signup', formData);
             if(res.status ===200 || res.ok){
-                toast.success("Sign-up successfully!")
+                toast.success("Sign-up successfully!", {
+                    autoClose: 2000})
                 navigate('/sign-in')
             }
             setLoading(false)

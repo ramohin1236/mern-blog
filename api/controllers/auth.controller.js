@@ -104,7 +104,7 @@ export const google = async (req, res, next) => {
         const token = jwt.sign(
             { id: user._id,isAdmin : newUser.isAdmin},
              process.env.JWT_SECTET,
-             {expiresIn: '365d'}
+             {expiresIn: '1d'}
         )
         const { password, ...rest } = newUser._doc;
         res
