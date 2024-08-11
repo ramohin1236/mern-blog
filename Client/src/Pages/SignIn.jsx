@@ -36,7 +36,7 @@ const SignIn = () => {
              if(res.status ===200 || res.ok){
                 dispatch(signInSuccess(res.data))
                  toast.success("Sign-in successfully!", {
-                    autoClose: 2000})
+                    autoClose: 1000})
                  navigate('/')
              }
             

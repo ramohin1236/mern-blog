@@ -156,7 +156,7 @@ const DashProfile = () => {
             } else {
               dispatch(deleteUserSuccess(data));
               toast.success('User Deleted Successfully!', {
-                autoClose: 2000
+                autoClose: 1000
               })
             }
           } catch (error) {

@@ -104,7 +104,7 @@ const UpdatePost = () => {
           if (res.ok) {
             setPublishError(null);
             toast.success("Updated successfully!", {
-                autoClose: 2000
+                autoClose: 1000
               })
             navigate(`/post/${data.slug}`);
           }

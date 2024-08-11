@@ -71,7 +71,7 @@ const DashPosts = () => {
          
             );
             toast.success("Post deleted successfully!", {
-                autoClose: 2000
+                autoClose: 1000
               })
           }
         } catch (error) {
