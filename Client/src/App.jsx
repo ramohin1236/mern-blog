@@ -4,7 +4,6 @@ import About from "./Pages/About";
 import SignIn from "./Pages/SignIn";
 import SignUp from "./Pages/SignUp";
 import Dashboard from "./Pages/Dashboard";
-import Projects from "./Pages/Projects";
 import Headers from "./Components/Headers";
 import FooterComponent from "./Components/FooterComponent";
 import PrivateRoute from "./Components/PrivateRoute";
@@ -27,7 +26,7 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/sign-up" element={<SignUp />} />
-        <Route path="/project" element={<Projects />} />
+     
         <Route path="/post/:postSlug" element={<PostDetailsPage />} />
         <Route path="/search" element={<Search />} />
 

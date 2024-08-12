@@ -137,11 +137,7 @@ console.log(searchTerm);
                     About 
                 </Link>
              </Navbar.Link>
-             <Navbar.Link active={path === '/project'} as={'div'} className={path === '/project' ? 'text-blue-500' : ''}>
-                <Link to='/project'>
-                    Projects 
-                </Link>
-             </Navbar.Link>
+            
          </Navbar.Collapse>
     </Navbar>
   )
