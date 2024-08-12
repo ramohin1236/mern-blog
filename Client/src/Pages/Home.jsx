@@ -125,6 +125,64 @@ const Home = () => {
           />
         </div>
       </div>
+      {/* q and a  */}
+      <div className="flex flex-col items-center justify-center px-6 py-12 mx-auto lg:px-8 lg:py-24"> 
+      <div className="w-full max-w-4xl mt-16">
+      <h1 className="text-5xl mb-4 text-center"> Frequently Asked Questions</h1>
+       
+        <div className="mt-8 space-y-6">
+          <div className="p-4 bg-white rounded-lg shadow">
+            <h3 className="text-xl font-medium text-gray-800">
+              What type of content do you offer?
+            </h3>
+            <p className="mt-2 text-gray-600">
+              We offer a wide range of content from technical guides, personal growth tips, and creative stories, to industry insights and trends.
+            </p>
+          </div>
+          <div className="p-4 bg-white rounded-lg shadow">
+            <h3 className="text-xl font-medium text-gray-800">
+              How can I contribute to the blog?
+            </h3>
+            <p className="mt-2 text-gray-600">
+              You can contribute by submitting your articles or joining as a regular writer. We value diverse perspectives and voices.
+            </p>
+          </div>
+          <div className="p-4 bg-white rounded-lg shadow">
+            <h3 className="text-xl font-medium text-gray-800">
+              Is the content free to access?
+            </h3>
+            <p className="mt-2 text-gray-600">
+              Yes, all our content is free to access. We believe in making knowledge accessible to everyone.
+            </p>
+          </div>
+          <div className="p-4 bg-white rounded-lg shadow">
+            <h3 className="text-xl font-medium text-gray-800">
+              How often do you publish new content?
+            </h3>
+            <p className="mt-2 text-gray-600">
+              We publish new content regularly, with updates often coming multiple times a week.
+            </p>
+          </div>
+          <div className="p-4 bg-white rounded-lg shadow">
+            <h3 className="text-xl font-medium text-gray-800">
+              Can I subscribe to receive updates?
+            </h3>
+            <p className="mt-2 text-gray-600">
+              Yes, you can subscribe to our newsletter to receive the latest articles directly in your inbox.
+            </p>
+          </div>
+          <div className="p-4 bg-white rounded-lg shadow">
+            <h3 className="text-xl font-medium text-gray-800">
+              Who are the authors?
+            </h3>
+            <p className="mt-2 text-gray-600">
+              Our authors are a mix of industry experts, passionate writers, and community members who have valuable experiences to share.
+            </p>
+          </div>
+        </div>
+      </div>
+      </div>
+      
     </div>
   );
 };
