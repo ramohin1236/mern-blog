@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { signoutSuccess } from "../redux/user/userSlice.js";
 import { IoIosCreate } from "react-icons/io";
+import { FaComments } from "react-icons/fa";
 
 const DashSidebar = () => {
   const location = useLocation();
@@ -87,6 +88,15 @@ const DashSidebar = () => {
                   as='div'
                 >
                   Users
+                </Sidebar.Item>
+              </Link>
+            <Link to='/dashboard?tab=comments'>
+                <Sidebar.Item
+                  active={tab === 'comments'}
+                  icon={FaComments }
+                  as='div'
+                >
+                  Comments
                 </Sidebar.Item>
               </Link>
            
