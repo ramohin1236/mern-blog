@@ -6,7 +6,7 @@ import { Link, useLocation } from "react-router-dom";
 import { signoutSuccess } from "../redux/user/userSlice.js";
 import { IoIosCreate } from "react-icons/io";
 import { FaComments } from "react-icons/fa";
-
+import { MdDashboard } from "react-icons/md";
 const DashSidebar = () => {
   const location = useLocation();
   const [tab, setTab] = useState("");
@@ -60,6 +60,17 @@ const DashSidebar = () => {
                                 {/* create a post */}
           {currentUser.isAdmin && (
             <>
+
+              <Link to='/dashboard?tab=dash'>
+                <Sidebar.Item
+                  active={tab === 'dash'}
+                  icon={MdDashboard }
+                  as='div'
+                >
+                  Dashboard
+                </Sidebar.Item>
+              </Link>
+
             <Link to={"/dashboard/create-post"}>
               <Sidebar.Item
                 icon={IoIosCreate}
@@ -99,6 +110,7 @@ const DashSidebar = () => {
                   Comments
                 </Sidebar.Item>
               </Link>
+           
            
             </>
           )}
