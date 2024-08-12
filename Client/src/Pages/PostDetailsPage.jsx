@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Button, Spinner } from 'flowbite-react';
-import CallToAction from '../Components/CallToAction';
 import Comments from '../Components/Comments';
 import PostCard from '../Components/PostCard';
 const PostDetailsPage = () => {

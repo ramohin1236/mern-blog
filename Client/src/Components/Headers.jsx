@@ -98,7 +98,7 @@ const Headers = () => {
        {/* menu with responsive for all device */}
          <Navbar.Collapse>
              <Navbar.Link active={path === '/'} as={'div'} className={path === '/' ? 'text-blue-500' : ''}>
-                <Link to='/home'>
+                <Link to='/'>
                     Home 
                 </Link>
              </Navbar.Link>

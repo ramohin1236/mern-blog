@@ -31,6 +31,7 @@ function App() {
 
         {/* private route */}
         <Route element={<PrivateRoute />}>
+        <Route path="/dashboard/create-post" element={<CreatePost />} />
           <Route path="/dashboard" element={<Dashboard />} />
         </Route>
 
@@ -38,7 +39,7 @@ function App() {
         <Route element={<AdminPrivateRoute />}>
           <Route path="/dashboard" element={<DashboardLayout />}>
         
-            <Route path="/dashboard/create-post" element={<CreatePost />} />
+           
             <Route path="/dashboard/update-post/:postId" element={<UpdatePost />} />
            
        

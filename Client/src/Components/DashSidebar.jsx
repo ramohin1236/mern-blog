@@ -54,24 +54,7 @@ const DashSidebar = () => {
               Settings
             </Sidebar.Item>
           </Link>
-
-         
-     {/* ---------------------- for admin ---------------------------------- */}
-                                {/* create a post */}
-          {currentUser.isAdmin && (
-            <>
-
-              <Link to='/dashboard?tab=dash'>
-                <Sidebar.Item
-                  active={tab === 'dash'}
-                  icon={MdDashboard }
-                  as='div'
-                >
-                  Dashboard
-                </Sidebar.Item>
-              </Link>
-
-            <Link to={"/dashboard/create-post"}>
+          <Link to={"/dashboard/create-post"}>
               <Sidebar.Item
                 icon={IoIosCreate}
                 className="cursor-pointer"
@@ -80,7 +63,6 @@ const DashSidebar = () => {
                 Create a post
               </Sidebar.Item>
             </Link>
-
             <Link to={"/dashboard?tab=posts"}>
               <Sidebar.Item
                 icon={HiDocumentText}
@@ -91,6 +73,24 @@ const DashSidebar = () => {
                  Posts
               </Sidebar.Item>
             </Link>
+     {/* ---------------------- for admin ---------------------------------- */}
+                                {/* create a post */}
+          {currentUser.isAdmin && (
+            <>
+
+              <Link to='/dashboard?tab=dash'>
+                <Sidebar.Item
+                  active={tab === 'dash' || !tab}
+                  icon={MdDashboard }
+                  as='div'
+                >
+                  Dashboard
+                </Sidebar.Item>
+              </Link>
+
+           
+
+            
 
             <Link to='/dashboard?tab=users'>
                 <Sidebar.Item
