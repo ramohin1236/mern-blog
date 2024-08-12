@@ -14,6 +14,7 @@ import DashboardLayout from "./Components/DashboardLayout";
 import UpdatePost from "./Pages/UpdatePost";
 import PostDetailsPage from "./Pages/PostDetailsPage";
 import TopOfPage from "./Components/TopOfPage";
+import Search from "./Pages/Search";
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/project" element={<Projects />} />
         <Route path="/post/:postSlug" element={<PostDetailsPage />} />
+        <Route path="/search" element={<Search />} />
 
         {/* private route */}
         <Route element={<PrivateRoute />}>

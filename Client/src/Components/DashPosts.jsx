@@ -83,7 +83,7 @@ console.log(userPosts);
           );
           const data = await res.json();
           if (!res.ok) {
-            console.log(data.message);
+            toast.error(data.message,{autoClose: 1000});
           } else {
             setUserPosts((prev) =>
               prev.filter((post) => post._id !== postIdToDelete)
@@ -108,6 +108,7 @@ console.log(userPosts);
                 <Table.HeadCell>Post title</Table.HeadCell>
                 <Table.HeadCell>Category</Table.HeadCell>
                 <Table.HeadCell>Delete</Table.HeadCell>
+                
                 <Table.HeadCell>
                   <span>Edit</span>
                 </Table.HeadCell>
