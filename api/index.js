@@ -8,11 +8,11 @@ import CommentRoutes from './routes/comment.route.js';
 import cookieParser from 'cookie-parser';
 import path from 'path';
 
-dotenv.config({ path: '../.env' });
+dotenv.config();
 
 // mongoose is connected with server
 mongoose
-  .connect(process.env.MONGODB_URL)
+  .connect("mongodb+srv://mohinr26:FkkdQSOPUM8ZZoGI@blog-app.5bcxwwa.mongodb.net/?retryWrites=true&w=majority&appName=blog-app")
   .then(() => {
     console.log('MongoDb is connected');
   })
