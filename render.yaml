@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: blog-app
+    env: node
+    buildCommand: |
+      npm install
+      cd client
+      npm install
+      npm run build
+    startCommand: node api/index.js
+    envVars:
+      - key: NODE_VERSION
+        value: 18
+    plan: free
+    autoDeploy: true
