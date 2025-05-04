@@ -7,8 +7,8 @@ import PostRoutes from './routes/post.route.js';
 import CommentRoutes from './routes/comment.route.js';
 import cookieParser from 'cookie-parser';
 import path from 'path';
-
-dotenv.config({ path: '../.env' });
+// path: '../.env'
+dotenv.config({});
 
 // mongoose is connected with server
 mongoose
@@ -20,7 +20,7 @@ mongoose
     console.log(err);
   });
   
-  
+  console.log(process.env.MONGODB_URL)
   const __dirname = path.resolve();
  
  
