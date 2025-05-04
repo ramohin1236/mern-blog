@@ -20,7 +20,6 @@ mongoose
     console.log(err);
   });
   
-  console.log(process.env.MONGODB_URL)
   const __dirname = path.resolve();
  
  
@@ -41,13 +40,16 @@ app.use('/api/post',PostRoutes )
 app.use('/api/comment',CommentRoutes)
 
 
-app.use(express.static(path.join(__dirname, '/client/dist')));
+// app.use(express.static(path.join(__dirname, '/client/dist')));
+app.use(express.static(path.join(__dirname, '/client/build')));
+
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+// });
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+  res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
 });
-
-
 
 
 // middleware
