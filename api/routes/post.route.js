@@ -7,7 +7,7 @@ const router =express.Router()
 
 
 router.post('/create', verifyToken,create)
-router.get('/getPosts', verifyToken,getPosts)
+router.get('/getPosts',getPosts)
 router.delete('/deletepost/:postId/:userId', verifyToken,deletePosts)
 router.put('/updatepost/:postId/:userId', verifyToken,updatepost)
 
