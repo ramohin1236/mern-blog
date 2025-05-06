@@ -50,7 +50,7 @@ const Search = () => {
         const data = await res.json();
         
         setPosts(data.posts);
-        setShowMore(data.posts.length === 9);
+        setShowMore(data?.posts?.length === 9);
       } catch (error) {
         console.error('Failed to fetch posts:', error);
       } finally {
@@ -83,7 +83,7 @@ const Search = () => {
     const data = await res.json();
     
     setPosts([...posts, ...data.posts]);
-    setShowMore(data.posts.length === 9);
+    setShowMore(data?.posts?.length === 9);
   };
   return (
     <div className="container mx-auto px-4 py-12">

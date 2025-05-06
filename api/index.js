@@ -7,7 +7,7 @@ import PostRoutes from './routes/post.route.js';
 import CommentRoutes from './routes/comment.route.js';
 import cookieParser from 'cookie-parser';
 import path from 'path';
-// path: '../.env'
+// 
 dotenv.config({});
 
 // mongoose is connected with server
