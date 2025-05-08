@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 import { useSelector } from 'react-redux';
 import {
   HiAnnotation,
@@ -6,212 +7,203 @@ import {
   HiDocumentText,
   HiOutlineUserGroup,
 } from 'react-icons/hi';
-import { Button, Table } from 'flowbite-react';
 import { Link } from 'react-router-dom';
 
+const StatCard = ({ icon: Icon, title, value, change, color }) => (
+  <motion.div
+    whileHover={{ scale: 1.05 }}
+    className={`bg-white shadow-lg rounded-2xl p-4 sm:p-6 border-l-4 ${color} 
+      transform transition-all duration-300 hover:shadow-xl`}
+  >
+    <div className="flex items-center justify-between">
+      <div className="flex-grow">
+        <h3 className="text-xs sm:text-sm text-gray-500 mb-1 sm:mb-2">{title}</h3>
+        <div className="flex items-center space-x-2">
+          <span className="text-xl sm:text-3xl font-bold text-gray-800">{value}</span>
+          {change > 0 && (
+            <span className="flex items-center text-green-500 text-xs sm:text-sm">
+              <HiArrowNarrowUp />
+              {change}%
+            </span>
+          )}
+        </div>
+      </div>
+      <Icon className={`text-2xl sm:text-4xl ${color} opacity-50 ml-2 sm:ml-0`} />
+    </div>
+  </motion.div>
+);
+
+const RecentTable = ({ title, items, columns, linkPath }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    className="bg-white shadow-lg rounded-2xl p-4 sm:p-6 w-full"
+  >
+    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 sm:mb-6">
+      <h2 className="text-lg sm:text-xl font-bold text-gray-800 mb-2 sm:mb-0">{title}</h2>
+      <Link 
+        to={linkPath} 
+        className="text-teal-600 hover:underline text-sm"
+      >
+        View All
+      </Link>
+    </div>
+    <div className="overflow-x-auto">
+      <table className="w-full min-w-[500px]">
+        <thead className="bg-gray-50 border-b">
+          <tr>
+            {columns.map((col, index) => (
+              <th 
+                key={index} 
+                className="p-2 sm:p-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                {col}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {items.map((item, index) => (
+            <tr 
+              key={index} 
+              className="hover:bg-gray-50 transition-colors"
+            >
+              {Object.values(item).map((value, colIndex) => (
+                <td 
+                  key={colIndex} 
+                  className="p-2 sm:p-3 text-xs sm:text-sm text-gray-600 truncate max-w-[200px]"
+                >
+                  {value}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </motion.div>
+);
+
 const DashAllInformation = () => {
-    const [users, setUsers] = useState([]);
-    const [comments, setComments] = useState([]);
-    const [posts, setPosts] = useState([]);
-    const [totalUsers, setTotalUsers] = useState(0);
-    const [totalPosts, setTotalPosts] = useState(0);
-    const [totalComments, setTotalComments] = useState(0);
-    const [lastMonthUsers, setLastMonthUsers] = useState(0);
-    const [lastMonthPosts, setLastMonthPosts] = useState(0);
-    const [lastMonthComments, setLastMonthComments] = useState(0);
-    const { currentUser } = useSelector((state) => state.user);
+  const [users, setUsers] = useState([]);
+  const [comments, setComments] = useState([]);
+  const [posts, setPosts] = useState([]);
+  const [totalUsers, setTotalUsers] = useState(0);
+  const [totalPosts, setTotalPosts] = useState(0);
+  const [totalComments, setTotalComments] = useState(0);
+  const [lastMonthUsers, setLastMonthUsers] = useState(0);
+  const [lastMonthPosts, setLastMonthPosts] = useState(0);
+  const [lastMonthComments, setLastMonthComments] = useState(0);
+  const { currentUser } = useSelector((state) => state.user);
 
-    useEffect(() => {
-        const fetchUsers = async () => {
-          try {
-            const res = await fetch('/api/user/getusers?limit=5');
-            const data = await res.json();
-            if (res.ok) {
-              setUsers(data.users);
-              setTotalUsers(data.totalUsers);
-              setLastMonthUsers(data.lastMonthUsers);
-            }
-          } catch (error) {
-            console.log(error.message);
-          }
-        };
-        const fetchPosts = async () => {
-          try {
-            const res = await fetch('/api/post/getposts?limit=5');
-            const data = await res.json();
-            if (res.ok) {
-              setPosts(data.posts);
-              setTotalPosts(data.totalPosts);
-              setLastMonthPosts(data.lastMonthPosts);
-            }
-          } catch (error) {
-            console.log(error.message);
-          }
-        };
-        const fetchComments = async () => {
-          try {
-            const res = await fetch('/api/comment/getcomments?limit=5');
-            const data = await res.json();
-            if (res.ok) {
-              setComments(data.comments);
-              setTotalComments(data.totalComments);
-              setLastMonthComments(data.lastMonthComments);
-            }
-          } catch (error) {
-            console.log(error.message);
-          }
-        };
-        if (currentUser.isAdmin) {
-          fetchUsers();
-          fetchPosts();
-          fetchComments();
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const res = await fetch('/api/user/getusers?limit=5');
+        const data = await res.json();
+        if (res.ok) {
+          setUsers(data.users);
+          setTotalUsers(data.totalUsers);
+          setLastMonthUsers(data.lastMonthUsers);
         }
-      }, [currentUser]);
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      }
+    };
 
+    const fetchPosts = async () => {
+      try {
+        const res = await fetch('/api/post/getposts?limit=5');
+        const data = await res.json();
+        if (res.ok) {
+          setPosts(data.posts);
+          setTotalPosts(data.totalPosts);
+          setLastMonthPosts(data.lastMonthPosts);
+        }
+      } catch (error) {
+        console.error('Error fetching posts:', error);
+      }
+    };
+
+    const fetchComments = async () => {
+      try {
+        const res = await fetch('/api/comment/getcomments?limit=5');
+        const data = await res.json();
+        if (res.ok) {
+          setComments(data.comments);
+          setTotalComments(data.totalComments);
+          setLastMonthComments(data.lastMonthComments);
+        }
+      } catch (error) {
+        console.error('Error fetching comments:', error);
+      }
+    };
+
+    fetchUsers();
+    fetchPosts();
+    fetchComments();
+  }, []);
 
   return (
-    <div className='p-3 md:mx-auto'>
-      <div className='flex-wrap flex gap-4 justify-center'>
-        <div className='flex flex-col p-3 dark:bg-slate-800 gap-4 md:w-72 w-full rounded-md shadow-md'>
-          <div className='flex justify-between'>
-            <div className=''>
-              <h3 className='text-gray-500 text-md uppercase'>Total Users</h3>
-              <p className='text-2xl'>{totalUsers}</p>
-            </div>
-            <HiOutlineUserGroup className='bg-teal-600  text-white rounded-full text-5xl p-3 shadow-lg' />
-          </div>
-          <div className='flex  gap-2 text-sm'>
-            <span className='text-green-500 flex items-center'>
-              <HiArrowNarrowUp />
-              {lastMonthUsers}
-            </span>
-            <div className='text-gray-500'>Last month</div>
-          </div>
-        </div>
-        <div className='flex flex-col p-3 dark:bg-slate-800 gap-4 md:w-72 w-full rounded-md shadow-md'>
-          <div className='flex justify-between'>
-            <div className=''>
-              <h3 className='text-gray-500 text-md uppercase'>
-                Total Comments
-              </h3>
-              <p className='text-2xl'>{totalComments}</p>
-            </div>
-            <HiAnnotation className='bg-indigo-600  text-white rounded-full text-5xl p-3 shadow-lg' />
-          </div>
-          <div className='flex  gap-2 text-sm'>
-            <span className='text-green-500 flex items-center'>
-              <HiArrowNarrowUp />
-              {lastMonthComments}
-            </span>
-            <div className='text-gray-500'>Last month</div>
-          </div>
-        </div>
-        <div className='flex flex-col p-3 dark:bg-slate-800 gap-4 md:w-72 w-full rounded-md shadow-md'>
-          <div className='flex justify-between'>
-            <div className=''>
-              <h3 className='text-gray-500 text-md uppercase'>Total Posts</h3>
-              <p className='text-2xl'>{totalPosts}</p>
-            </div>
-            <HiDocumentText className='bg-lime-600  text-white rounded-full text-5xl p-3 shadow-lg' />
-          </div>
-          <div className='flex  gap-2 text-sm'>
-            <span className='text-green-500 flex items-center'>
-              <HiArrowNarrowUp />
-              {lastMonthPosts}
-            </span>
-            <div className='text-gray-500'>Last month</div>
-          </div>
-        </div>
+    <div className="container mx-auto px-4 py-4 sm:py-8 bg-gray-50">
+      <motion.h1
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="text-2xl sm:text-4xl font-bold text-gray-800 mb-4 sm:mb-8"
+      >
+        Dashboard Overview
+      </motion.h1>
+
+      {/* Statistics Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-12">
+        <StatCard 
+          icon={HiOutlineUserGroup}
+          title="Total Users"
+          value={totalUsers}
+          change={lastMonthUsers}
+          color="border-blue-500"
+        />
+        <StatCard 
+          icon={HiDocumentText}
+          title="Total Posts"
+          value={totalPosts}
+          change={lastMonthPosts}
+          color="border-green-500"
+        />
+        <StatCard 
+          icon={HiAnnotation}
+          title="Total Comments"
+          value={totalComments}
+          change={lastMonthComments}
+          color="border-purple-500"
+        />
       </div>
-      <div className='flex flex-wrap gap-4 py-3 mx-auto justify-center'>
-        <div className='flex flex-col w-full md:w-auto shadow-md p-2 rounded-md dark:bg-gray-800'>
-          <div className='flex justify-between  p-3 text-sm font-semibold'>
-            <h1 className='text-center p-2'>Recent users</h1>
-            <Button outline gradientDuoTone='purpleToPink'>
-              <Link to={'/dashboard?tab=users'}>See all</Link>
-            </Button>
-          </div>
-          <Table hoverable>
-            <Table.Head>
-              <Table.HeadCell>User image</Table.HeadCell>
-              <Table.HeadCell>Username</Table.HeadCell>
-            </Table.Head>
-            {users &&
-              users.map((user) => (
-                <Table.Body key={user._id} className='divide-y'>
-                  <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800'>
-                    <Table.Cell>
-                      <img
-                        src={user.profilePicture}
-                        alt='user'
-                        className='w-10 h-10 rounded-full bg-gray-500'
-                      />
-                    </Table.Cell>
-                    <Table.Cell>{user.username}</Table.Cell>
-                  </Table.Row>
-                </Table.Body>
-              ))}
-          </Table>
-        </div>
-        <div className='flex flex-col w-full md:w-auto shadow-md p-2 rounded-md dark:bg-gray-800'>
-          <div className='flex justify-between  p-3 text-sm font-semibold'>
-            <h1 className='text-center p-2'>Recent comments</h1>
-            <Button outline gradientDuoTone='purpleToPink'>
-              <Link to={'/dashboard?tab=comments'}>See all</Link>
-            </Button>
-          </div>
-          <Table hoverable>
-            <Table.Head>
-              <Table.HeadCell>Comment content</Table.HeadCell>
-              <Table.HeadCell>Likes</Table.HeadCell>
-            </Table.Head>
-            {comments &&
-              comments.map((comment) => (
-                <Table.Body key={comment._id} className='divide-y'>
-                  <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800'>
-                    <Table.Cell className='w-96'>
-                        <p className='line-clamp-2'>{comment.content}</p>
-                    </Table.Cell>
-                    <Table.Cell>{comment.numberOfLikes}</Table.Cell>
-                  </Table.Row>
-                </Table.Body>
-              ))}
-          </Table>
-        </div>
-        <div className='flex flex-col w-full md:w-auto shadow-md p-2 rounded-md dark:bg-gray-800'>
-          <div className='flex justify-between  p-3 text-sm font-semibold'>
-            <h1 className='text-center p-2'>Recent posts</h1>
-            <Button outline gradientDuoTone='purpleToPink'>
-              <Link to={'/dashboard?tab=posts'}>See all</Link>
-            </Button>
-          </div>
-          <Table hoverable>
-            <Table.Head>
-              <Table.HeadCell>Post image</Table.HeadCell>
-              <Table.HeadCell>Post Title</Table.HeadCell>
-              <Table.HeadCell>Category</Table.HeadCell>
-            </Table.Head>
-            {posts &&
-              posts.map((post) => (
-                <Table.Body key={post._id} className='divide-y'>
-                  <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800'>
-                    <Table.Cell>
-                      <img
-                        src={post.image}
-                        alt='user'
-                        className='w-14 h-10 rounded-md bg-gray-500'
-                      />
-                    </Table.Cell>
-                    <Table.Cell className='w-96'>{post.title}</Table.Cell>
-                    <Table.Cell className='w-5'>{post.category}</Table.Cell>
-                  </Table.Row>
-                </Table.Body>
-              ))}
-          </Table>
-        </div>
+
+      {/* Recent Data Tables */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8">
+        <RecentTable 
+          title="Recent Users"
+          items={users.map(user => ({
+            Username: user.username,
+            Email: user.email,
+            Role: user.isAdmin ? 'Admin' : 'User'
+          }))}
+          columns={['Username', 'Email', 'Role']}
+          linkPath="/dashboard?tab=users"
+        />
+        <RecentTable 
+          title="Recent Posts"
+          items={posts.map(post => ({
+            Title: post.title,
+            Category: post.category,
+            Author: post.username
+          }))}
+          columns={['Title', 'Category', 'Author']}
+          linkPath="/dashboard?tab=posts"
+        />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default DashAllInformation
+export default DashAllInformation;

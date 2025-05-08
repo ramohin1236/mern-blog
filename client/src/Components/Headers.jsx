@@ -1,146 +1,207 @@
-/* eslint-disable react/no-unescaped-entities */
-import { Avatar, Button, Dropdown, Navbar, TextInput } from "flowbite-react";
-import {Link, useLocation, useNavigate} from "react-router-dom";
-import { AiOutlineSearch } from "react-icons/ai";
-import { FaMoon, FaSun } from "react-icons/fa";
-import { useDispatch, useSelector } from 'react-redux';
-import { toggleTheme } from "../redux/theme/themeSlice";
-import { signoutSuccess } from "../redux/user/userSlice";
-import { useEffect, useState } from "react";
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { 
+  FaBars, 
+  FaSearch, 
+  FaUser, 
+  FaSignOutAlt, 
+  FaCog 
+} from 'react-icons/fa';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useSelector, useDispatch } from 'react-redux';
+import { signoutSuccess } from '../redux/user/userSlice';
 
 const Headers = () => {
-    const path = useLocation().pathname;
-    const location = useLocation();
-    const dispatch = useDispatch()
-   const {currentUser}=useSelector(state=>state.user);
-   const {theme}=useSelector(state=>state.theme);
-   const [searchTerm, setSearchTerm] = useState('');
-   const navigate =useNavigate()
-console.log(searchTerm);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const { currentUser } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
 
-   useEffect(() => {
-    const urlParams = new URLSearchParams(location.search);
-    const searchTermFromUrl = urlParams.get('searchTerm');
-    if (searchTermFromUrl) {
-      setSearchTerm(searchTermFromUrl);
-    }
-  }, [location.search]);
+  const navLinks = [
+    { name: 'Home', path: '/' },
+    { name: 'Blog', path: '/search' },
+    { name: 'About', path: '/about' }
+  ];
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
 
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
-//    signout -------------------------
-   const handleSignout = async () => {
+  const handleSignout = async () => {
     try {
       const res = await fetch('/api/user/signout', {
         method: 'POST',
       });
       const data = await res.json();
       if (!res.ok) {
-        console.log(data.message);
+        console.error(data.message);
       } else {
         dispatch(signoutSuccess());
+        navigate('/sign-in');
       }
     } catch (error) {
-      console.log(error.message);
+      console.error(error);
     }
   };
 
-//   search results
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const urlParams = new URLSearchParams(location.search);
-    urlParams.set('searchTerm', searchTerm);
-    const searchQuery = urlParams.toString();
-    navigate(`/search?${searchQuery}`);
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
   };
 
-
   return (
-    <Navbar className="border-b-2">
-        <Link to='/' className="self-center whitespace-nowrap text-sm sm:text-xl font-semibold text-black">
-          <span className="px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg text-white">Mohin's</span>Blog
+    <motion.header 
+      initial={{ opacity: 0, y: -50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 
+        ${isScrolled ? 'bg-white shadow-md' : 'bg-transparent'}`}
+    >
+      <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+        {/* Logo */}
+        <Link to="/" className="flex items-center">
+          <span className="text-2xl font-bold">
+            <span className="bg-gradient-to-r from-teal-500 to-blue-600 text-transparent bg-clip-text">
+              Mohin's
+            </span> Blog
+          </span>
         </Link>
-        <form onSubmit={handleSubmit}>
-            <TextInput
-            type="text"
-            placeholder="Search..."
-        rightIcon={AiOutlineSearch}
-        className="hidden lg:inline"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-            />
-        </form>
-        {/* small device search button */}
-        <Button className="w-12 h-10 lg:hidden" color='gray' pill>
-        <AiOutlineSearch/>
-        </Button>
-    {/* dark mood light mood  */}
-         <div className='flex gap-3 md:order-2 '>
-             <Button className="w-12 h-10  sm:inline" color='gray' pill
-             onClick={()=>dispatch(toggleTheme())}
-             >
-                {
-                    theme === 'light'? <FaSun/> : <FaMoon/>
-                }
-                 
-             </Button>
-         
-    {/* SignIn   */}
-         <Link >
-         {currentUser ? (
-          <Dropdown
-            arrowIcon={false}
-            inline
-            label={
-              <Avatar alt='user' img={currentUser.profilePicture} rounded />
-            }
-          >
-            <Dropdown.Header>
-              <span className='block text-sm'>@{currentUser.username}</span>
-              <span className='block text-sm font-medium truncate'>
-                {currentUser.email}
-              </span>
-            </Dropdown.Header>
-            <Link to={'/dashboard?tab=profile'}>
-              <Dropdown.Item>Profile</Dropdown.Item>
-            </Link>
-            <Dropdown.Divider />
-            <Dropdown.Item 
-            onClick={handleSignout}
-            >Sign out</Dropdown.Item>
-          </Dropdown>
-        ) : (
-          <Link to='/sign-in'>
-            <Button gradientDuoTone='purpleToBlue' outline>
-              Sign In
-            </Button>
-          </Link>
-        )}
-         </Link>
-            <Navbar.Toggle/>
-         
-         </div>
-       {/* menu with responsive for all device */}
-         <Navbar.Collapse>
-             <Navbar.Link active={path === '/'} as={'div'} className={path === '/' ? 'text-blue-500' : ''}>
-                <Link to='/'>
-                    Home 
-                </Link>
-             </Navbar.Link>
-             <Navbar.Link active={path === '/search'} as={'div'} className={path === '/search' ? 'text-blue-500' : ''}>
-                <Link to='/search'>
-                    Blogs 
-                </Link>
-             </Navbar.Link>
-             <Navbar.Link active={path === '/about'} as={'div'} className={path === '/about'? 'text-blue-500' : ''}>
-                <Link to='/about'>
-                    About 
-                </Link>
-             </Navbar.Link>
-            
-         </Navbar.Collapse>
-    </Navbar>
-  )
-}
 
-export default Headers
+        {/* Navigation Links */}
+        <nav className="hidden md:flex space-x-6">
+          {navLinks.map((link, index) => (
+            <motion.div
+              key={index}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Link 
+                to={link.path} 
+                className={`text-gray-700 hover:text-teal-500 transition-colors 
+                  ${location.pathname === link.path ? 'text-teal-500 font-semibold' : ''}`}
+              >
+                {link.name}
+              </Link>
+            </motion.div>
+          ))}
+        </nav>
+
+        {/* Actions */}
+        <div className="flex items-center space-x-4">
+          {/* Search */}
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={() => navigate('/search')}
+            className="text-gray-600 hover:text-teal-500"
+          >
+            <FaSearch className="text-xl" />
+          </motion.button>
+
+          {/* User Actions */}
+          {currentUser ? (
+            <div className="relative">
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={toggleMenu}
+                className="flex items-center space-x-2"
+              >
+                <img 
+                  src={currentUser.profilePicture} 
+                  alt="Profile" 
+                  className="w-10 h-10 rounded-full object-cover"
+                />
+              </motion.button>
+
+              <AnimatePresence>
+                {isMenuOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    className="absolute right-0 mt-2 w-56 bg-white shadow-lg rounded-xl overflow-hidden"
+                  >
+                    <div className="px-4 py-3 border-b">
+                      <p className="text-sm font-medium text-gray-800">
+                        {currentUser.username}
+                      </p>
+                      <p className="text-xs text-gray-500 truncate">
+                        {currentUser.email}
+                      </p>
+                    </div>
+                    <Link 
+                      to="/dashboard?tab=profile" 
+                      className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    >
+                      <FaCog className="mr-3" /> Profile Settings
+                    </Link>
+                    <button
+                      onClick={handleSignout}
+                      className="w-full flex items-center px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                    >
+                      <FaSignOutAlt className="mr-3" /> Sign Out
+                    </button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          ) : (
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={() => navigate('/sign-in')}
+              className="bg-gradient-to-r from-teal-500 to-blue-600 
+                text-white px-4 py-2 rounded-xl hover:opacity-90 
+                transition-all flex items-center space-x-2"
+            >
+              <FaUser />
+              <span>Sign In</span>
+            </motion.button>
+          )}
+
+          {/* Mobile Menu Toggle */}
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={toggleMenu}
+            className="md:hidden text-gray-600"
+          >
+            <FaBars className="text-2xl" />
+          </motion.button>
+        </div>
+      </div>
+
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="md:hidden bg-white shadow-md"
+          >
+            {navLinks.map((link, index) => (
+              <Link
+                key={index}
+                to={link.path}
+                className="block px-4 py-3 border-b hover:bg-gray-100"
+                onClick={toggleMenu}
+              >
+                {link.name}
+              </Link>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.header>
+  );
+};
+
+export default Headers;

@@ -1,89 +1,124 @@
-/* eslint-disable react/no-unescaped-entities */
-import { Footer } from "flowbite-react"
-import { Link } from "react-router-dom"
-import {BsFacebook, BsInstagram, BsTwitter, BsGithub, BsDribbble} from 'react-icons/bs'
-const FooterComponent = () => {
-  return (
-    <Footer container  className="text-6xl font-bold border border-t-8 border-blue-400">
-        <div className="w-full max-w-7xl mx-auto ">
-             <div className="grid w-full justify-between sm:flex md:grid-cols-1">
-                 <div className="mt-5">
-                 <Link to='/' className="self-center whitespace-nowrap text-lg sm:text-xl font-semibold text-black">
-          <span className="px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg text-white">Mohin's</span>Blog
-        </Link>
-                 </div>
-                 <div className="grid gird-cols-2 gap-8 sm:mt-4 sm:grid-cols-3 sm:gap-6">
-                    <div>
-                    <Footer.Title title="About"/>
-                     <Footer.LinkGroup col>
-                         <Footer.Link href="https://www.somethi.com"
-                         target="_blank"
-                         rel="'noopener noreferrer"
-                         >
-                            100 js Projects
-                         </Footer.Link>
-                         <Footer.Link href="https://www.somethi.com"
-                         target="_blank"
-                         rel="'noopener noreferrer"
-                         >
-                            Facebook
-                         </Footer.Link>
-                     </Footer.LinkGroup>
-                    </div>
-                   
-                    <div>
-                    <Footer.Title title="Follow us"/>
-                     <Footer.LinkGroup col>
-                         <Footer.Link href="https://www.somethi.com"
-                         target="_blank"
-                         rel="'noopener noreferrer"
-                         >
-                            Github
-                         </Footer.Link>
-                         <Footer.Link href="https://www.somethi.com"
-                         target="_blank"
-                         rel="'noopener noreferrer"
-                         >
-                            Linkdin
-                         </Footer.Link>
-                     </Footer.LinkGroup>
-                    </div>
-                    <div>
-                    <Footer.Title title="Legal"/>
-                     <Footer.LinkGroup col>
-                         <Footer.Link href="https://www.somethi.com"
-                         target="_blank"
-                         rel="'noopener noreferrer"
-                         >
-                            Github
-                         </Footer.Link>
-                         <Footer.Link href="https://www.somethi.com"
-                         target="_blank"
-                         rel="'noopener noreferrer"
-                         >
-                            Linkdin
-                         </Footer.Link>
-                     </Footer.LinkGroup>
-                    </div>
-                 </div>
-             </div>
-             <Footer.Divider/>
-                <div className="w-full sm:flex sm:items-center sm:justify-between">
-                    <Footer.Copyright href="#" by="Mohin's Blog"
-                    year={new Date().getFullYear()}
-                    />
-                    <div className="flex gap-5 justify-center mt-6">
-                        <Footer.Icon href="#" icon={BsFacebook}/>
-                        <Footer.Icon href="#" icon={BsInstagram}/>
-                        <Footer.Icon href="#" icon={BsGithub}/>
-                        <Footer.Icon href="#" icon={BsTwitter}/>
-                        <Footer.Icon href="#" icon={BsDribbble}/>
-                    </div>
-                </div>
-            
-        </div>
-    </Footer>
-  )
-}
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { 
+  FaFacebook, 
+  FaTwitter, 
+  FaInstagram, 
+  FaLinkedin, 
+  FaGithub 
+} from 'react-icons/fa';
+import { motion } from 'framer-motion';
 
-export default FooterComponent
+const FooterComponent = () => {
+  const footerLinks = [
+    {
+      title: 'Explore',
+      links: [
+        { name: 'Home', path: '/' },
+        { name: 'Blog', path: '/blog' },
+        { name: 'Categories', path: '/categories' },
+        { name: 'About', path: '/about' }
+      ]
+    },
+    {
+      title: 'Resources',
+      links: [
+        { name: 'Latest Posts', path: '/posts' },
+        { name: 'Tutorials', path: '/tutorials' },
+        { name: 'Community', path: '/community' },
+        { name: 'Newsletter', path: '/newsletter' }
+      ]
+    },
+    {
+      title: 'Connect',
+      links: [
+        { name: 'Contact', path: '/contact' },
+        { name: 'Privacy Policy', path: '/privacy' },
+        { name: 'Terms of Service', path: '/terms' },
+        { name: 'FAQ', path: '/faq' }
+      ]
+    }
+  ];
+
+  const socialLinks = [
+    { icon: FaFacebook, url: 'https://facebook.com' },
+    { icon: FaTwitter, url: 'https://twitter.com' },
+    { icon: FaInstagram, url: 'https://instagram.com' },
+    { icon: FaLinkedin, url: 'https://linkedin.com' },
+    { icon: FaGithub, url: 'https://github.com' }
+  ];
+
+  return (
+    <footer className="bg-white py-16 border-t">
+      <div className="container mx-auto px-4">
+        <div className="grid md:grid-cols-4 gap-8">
+          {/* Logo and Description */}
+          <div className="md:col-span-1">
+            <Link 
+              to='/' 
+              className="inline-block mb-6"
+            >
+              <span className="text-2xl font-bold">
+                <span className="bg-gradient-to-r from-teal-500 to-blue-600 text-transparent bg-clip-text">
+                  Mohin's
+                </span> Blog
+              </span>
+            </Link>
+            <p className="text-gray-600 mb-6">
+              Inspiring stories, tech insights, and creative explorations 
+              to fuel your curiosity and growth.
+            </p>
+            
+            {/* Social Links */}
+            <div className="flex space-x-4">
+              {socialLinks.map((social, index) => (
+                <motion.a
+                  key={index}
+                  href={social.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  className="text-gray-600 hover:text-teal-500 transition-colors"
+                >
+                  <social.icon className="text-2xl" />
+                </motion.a>
+              ))}
+            </div>
+          </div>
+
+          {/* Footer Links */}
+          {footerLinks.map((section, index) => (
+            <div key={index} className="md:col-span-1">
+              <h4 className="text-lg font-semibold mb-4 text-gray-800">
+                {section.title}
+              </h4>
+              <ul className="space-y-3">
+                {section.links.map((link, linkIndex) => (
+                  <li key={linkIndex}>
+                    <Link 
+                      to={link.path} 
+                      className="text-gray-600 hover:text-teal-500 transition-colors"
+                    >
+                      {link.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+
+        {/* Copyright */}
+        <div className="mt-12 pt-8 border-t text-center">
+          <p className="text-gray-600">
+            © {new Date().getFullYear()} Mohin's Blog. 
+            All rights reserved.
+          </p>
+        </div>
+      </div>
+    </footer>
+  );
+};
+
+export default FooterComponent;

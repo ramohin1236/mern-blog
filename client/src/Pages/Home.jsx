@@ -4,6 +4,7 @@ import PostCard from "./../Components/PostCard";
 import Typewriter from "typewriter-effect";
 import HeroSection from '../Components/Home/HeroSection';
 import FeatureSection from '../Components/Home/FeatureSection';
+import Testimonial from '../Components/Home/Testimonial';
 
 const slides = [
   {
@@ -99,6 +100,7 @@ const Home = () => {
       <HeroSection />
       <FeatureSection />
       {RecentBlogsSection}
+      <Testimonial/>
     </div>
   );
 };
