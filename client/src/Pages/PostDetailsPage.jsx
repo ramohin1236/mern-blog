@@ -5,6 +5,7 @@ import { Link, useParams } from 'react-router-dom';
 import { Button, Spinner } from 'flowbite-react';
 import Comments from '../Components/Comments';
 import PostCard from '../Components/PostCard';
+import Headers from '../Components/Headers';
 const PostDetailsPage = () => {
 
     const {postSlug}=useParams()
@@ -64,7 +65,9 @@ const PostDetailsPage = () => {
         );
 
   return (
-    <main  className='p-3 flex flex-col max-w-6xl mx-auto min-h-screen'>
+    <div >
+      <Headers/>
+          <main  className='p-3 flex flex-col max-w-6xl mx-auto min-h-screen my-6'>
          <h1 className='text-3xl mt-10 p-3 text-center font-serif max-w-2xl mx-auto lg:text-4xl'>
         {post && post.title}
       </h1>
@@ -109,6 +112,8 @@ const PostDetailsPage = () => {
         </div>
       </div>
     </main>
+    </div>
+    
   )
 }
 

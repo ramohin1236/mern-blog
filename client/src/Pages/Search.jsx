@@ -11,6 +11,7 @@ import {
 } from 'react-icons/fa';
 import PostCard from '../Components/PostCard';
 import Explore from '../Components/Search/Explore';
+import Headers from '../Components/Headers';
 
 export default function Search() {
   const [sidebarData, setSidebarData] = useState({
@@ -86,7 +87,9 @@ export default function Search() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-16">
+    <div>
+      <Headers/>
+           <div className="min-h-screen bg-gray-50 py-24">
       <div className="container mx-auto px-4">
         {/* Search Header */}
         <motion.div 
@@ -272,5 +275,7 @@ export default function Search() {
          <Explore/>
       </div>
     </div>
+    </div>
+    
   );
 }

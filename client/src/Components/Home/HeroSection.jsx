@@ -28,7 +28,9 @@ function HeroSection() {
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
-              className="bg-orange-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-orange-600 transition-colors"
+              className="bg-teal-500 text-white 
+                  px-6 py-3 rounded-xl hover:bg-teal-600 
+                  transition-colors  text-lg font-semibold "
             >
                 <Link  to="/dashboard/create-post">  Start Writing</Link>
             

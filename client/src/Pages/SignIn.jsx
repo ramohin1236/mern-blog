@@ -48,62 +48,104 @@ const SignIn = () => {
            }
      }
      
-  return (
-    <div className="min-h-screen mt-8">
-           
-      
-      <div className='flex px-8 md:px-44 mx-auto flex-col md:flex-row md:items-center'>
-          {/* left side */}
-      <div className="flex-1 w-[350px] h-[300px] sm:w-[300px] sm:h-[300px] md:w-[600px] md:h-[600px]">
-      <Lottie animationData={animationData} 
-       loop={true} 
-       autoplay={true} 
-       
-      />
-      </div>
-      {/* right side */}
-        <div className='flex-1'>
-        <p className='text-5xl font-bold text-center mb-12 '>Signin Your Account</p>
-             <form
-             onSubmit={handleSubmit}
-             className='flex flex-col gap-4'> 
+     return (
+      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+        <div className="container mx-auto px-4 py-12">
+          <div className="max-w-6xl mx-auto">
+            <div className="flex items-center justify-center gap-8">
+              
+              {/* Right side - Form */}
+              <div className="w-full md:w-1/2">
+                <div className="bg-white rounded-xl shadow-lg p-8">
+                  <h1 className="text-4xl font-bold text-center mb-8 text-teal-500">Welcome Back</h1>
+                  
+                  <form onSubmit={handleSubmit} className="space-y-6">
+                    <div>
+                      <Label value='Email Address' htmlFor='email' />
+                      <div className="relative">
+                        <TextInput 
+                          type='email'
+                          placeholder='name@company.com'
+                          id='email' 
+                          onChange={handleChange}
+                          className="w-full"
+                        />
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <Label value='Password' htmlFor='password' />
+                      <div className="relative">
+                        <TextInput 
+                          type='password'
+                          placeholder='**********'
+                          id='password' 
+                          onChange={handleChange}
+                          className="w-full"
+                        />
+                      </div>
+                    </div>
+                    
+                    <Button 
                
-                <div>
-                   <Label value='Your Email'/>
-                   <TextInput type='text'placeholder='name@company.com'id='email' onChange={handleChange}/>
-                </div>
-                <div>
-                   <Label value='Your Password'/>
-                   <TextInput type='text' placeholder='**********' id='password' onChange={handleChange}/>
-                </div>
-                   <Button gradientDuoTone='purpleToPink' type='submit' disabled={loading}>
-                      {
-                        loading ? (<>
-                        <Spinner size='sm'/>
-                        <span className='pl-3'>Loading...</span>
-                        </>):"Sign in"
-                      } 
-                   </Button>
-                   {/* google sign in button */}
-                   <OAuth/>
-             </form>
-             <div className='mt-2'>
-                <span>Haven't any account? 
-
-                    <Link to='/sign-up' className='text-blue-500 font-semibold ml-3'>Sign-up</Link>
-                </span>
-             </div>
-            {
-                errorMessage && (
-                    <Alert className='mt-5' color='failure'>
-                        {errorMessage}
+                      type='submit' 
+                      disabled={loading}
+                      className="w-full bg-teal-500 text-white 
+                  px-6  rounded-xl hover:bg-teal-600 
+                  transition-colors"
+                    >
+                      {loading ? (
+                        <>
+                          <Spinner size='sm'/>
+                          <span className='pl-3'>Signing In...</span>
+                        </>
+                      ) : "Sign In"}
+                    </Button>
+                  </form>
+  
+                  {/* OAuth Section */}
+                  <div className="mt-8 ">
+                    <div className="relative">
+                      <div className="absolute inset-0 flex items-center">
+                        <div className="w-full border-t border-gray-300"></div>
+                      </div>
+                      <div className="relative flex justify-center text-sm">
+                        <span className="px-2 bg-white text-gray-500">
+                          Or continue with
+                        </span>
+                      </div>
+                    </div>
+                    
+                    <div className= ' flex justify-center mt-8'>
+                        <OAuth />
+                    </div>
+                  </div>
+  
+                  <div className="mt-6 text-center">
+                    <p className="text-gray-600">
+                      Don't have an account?{' '}
+                      <Link 
+                        to='/sign-up' 
+                        className='text-teal-500 hover:text-teal-700 transition-colors'
+                      >
+                        Sign up
+                      </Link>
+                    </p>
+                  </div>
+  
+                  {errorMessage && (
+                    <Alert className="mt-4" color='failure' rounded>
+                      {errorMessage}
                     </Alert>
-                )
-            }
+                  )}
+                </div>
+              </div>
+            </div>
+  
+          </div>
         </div>
       </div>
-    </div>
-  )
+    )
 }
 
 export default SignIn

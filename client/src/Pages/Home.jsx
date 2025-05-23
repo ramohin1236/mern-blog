@@ -1,10 +1,11 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import  { useEffect, useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import PostCard from "./../Components/PostCard";
 import Typewriter from "typewriter-effect";
 import HeroSection from '../Components/Home/HeroSection';
 import FeatureSection from '../Components/Home/FeatureSection';
 import Testimonial from '../Components/Home/Testimonial';
+import Headers from '../Components/Headers';
 
 const slides = [
   {
@@ -97,6 +98,7 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 overflow-hidden">
+      <Headers/>
       <HeroSection />
       <FeatureSection />
       {RecentBlogsSection}

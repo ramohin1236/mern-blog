@@ -12,6 +12,7 @@ import { FaComments } from 'react-icons/fa';
 import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { signoutSuccess } from '../redux/user/userSlice';
+import { FaHome } from "react-icons/fa";
 
 const DashSidebar = () => {
   const location = useLocation();
@@ -157,6 +158,20 @@ const DashSidebar = () => {
               >
                 <FaComments className="text-xl text-pink-500 group-hover:scale-110 transition-transform" />
                 <span className="font-medium">Comments</span>
+              </motion.div>
+            </Link>
+            <Link to="/">
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className={`flex items-center space-x-3 px-4 py-3 
+                  rounded-xl transition-all group
+                  ${tab === 'comments' 
+                    ? 'bg-teal-50 text-teal-600' 
+                    : 'hover:bg-gray-100 text-gray-700'}`}
+              >
+                <FaHome  className="text-xl group-hover:scale-110 transition-transform" />
+                <span className="font-medium">Home</span>
               </motion.div>
             </Link>
           </>
