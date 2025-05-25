@@ -17,60 +17,54 @@ const DashPosts = () => {
     const dispatch = useDispatch();
 console.log(userPosts);
 
-    useEffect(()=>{
-         const fetchPosts = async () => {
-       try {
-        const res = await fetch(`/api/post/getposts?userId=${currentUser._id}`);
-        const data = await res.json();
-        if (currentUser===null){
-            try {
-                const res = await fetch("/api/user/signout", {
-                  method: "POST",
-                });
-                const data = await res.json();
-                if (!res.ok) {
-                  console.log(data.message);
-                } else {
-                  dispatch(signoutSuccess());
-                }
-              } catch (error) {
-                console.log(error.message);
-              }
-        }
-        if (res.ok) {
-          setUserPosts(data.posts);
-          if (data.posts.length < 9) {
-        
-            setShowMore(false);
-          }
-        }
-      } catch (error) {
-        console.log(error.message);
+   useEffect(() => {
+  const fetchPosts = async () => {
+    try {
+      let url = '/api/post/getposts';
+      if (!currentUser.isAdmin) {
+        url += `?userId=${currentUser._id}`;
       }
-    };
-    if (currentUser.isAdmin|| !currentUser.isAdmin) {
-      fetchPosts();
-    }
-   
-     },[currentUser._id,currentUser,dispatch])
+      const res = await fetch(url);
+      const data = await res.json();
 
-     const handleShowMore = async () => {
-        const startIndex = userPosts.length;
-        try {
-          const res = await fetch(
-            `/api/post/getposts?userId=${currentUser._id}&startIndex=${startIndex}`
-          );
-          const data = await res.json();
-          if (res.ok) {
-            setUserPosts((prev) => [...prev, ...data.posts]);
-            if (data.posts.length < 9) {
-              setShowMore(false);
-            }
-          }
-        } catch (error) {
-          console.log(error.message);
+      if (res.ok) {
+        setUserPosts(data.posts);
+        if (data.posts.length < 9) {
+          setShowMore(false);
         }
-      };
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  if (currentUser) {
+    fetchPosts();
+  }
+}, [currentUser._id, currentUser, dispatch]);
+
+
+   const handleShowMore = async () => {
+  const startIndex = userPosts.length;
+  try {
+    let url = `/api/post/getposts?startIndex=${startIndex}`;
+    if (!currentUser.isAdmin) {
+      url += `&userId=${currentUser._id}`;
+    }
+    const res = await fetch(url);
+    const data = await res.json();
+
+    if (res.ok) {
+      setUserPosts((prev) => [...prev, ...data.posts]);
+      if (data.posts.length < 9) {
+        setShowMore(false);
+      }
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 
       const handleDeletePost = async () => {
         setShowModal(false);
